@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ==========================================================
+     EDIT THESE FIRST
+     ----------------------------------------------------------
+     1. Names, date, venues: search for "EDIT:" through this file.
+     2. Every piece of text exists twice: <span lang="el"> and
+        <span lang="en">. Change both, or the toggle looks broken.
+     3. RSVP: put your form URL in the RSVP button href.
+     4. Maps: replace the Google Maps query strings.
+     ========================================================== -->
+
+<title>Christos &amp; Name — 13.06.2027</title>
+<meta name="description" content="Wedding details, schedule, travel and RSVP.">
+
+<!-- Social preview. Add an image at og-image.jpg (1200x630) when you have one. -->
+<meta property="og:title" content="Christos &amp; Name — 13 June 2027">
+<meta property="og:description" content="We're getting married in Arcadia. Here's everything you need.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;1,400;1,500&family=Commissioner:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#1E2A26;
+  --ink-soft:#3A4A43;
+  --limewash:#EFF0EA;
+  --stone:#C6CABB;
+  --pomegranate:#8C2F3E;
+  --olive:#6F7D5E;
+
+  --display:"Alegreya",Georgia,"Times New Roman",serif;
+  --body:"Commissioner",system-ui,-apple-system,"Segoe UI",sans-serif;
+
+  --gap:clamp(3.5rem,9vw,7rem);
+  --pad:clamp(1.5rem,5vw,4rem);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+body{
+  background:var(--limewash);
+  color:var(--ink);
+  font-family:var(--body);
+  font-weight:300;
+  font-size:clamp(1rem,0.95rem + 0.25vw,1.125rem);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* --- language switching -------------------------------------------------- */
+[data-lang="en"] [lang="el"]{display:none}
+[data-lang="el"] [lang="en"]{display:none}
+
+body{transition:opacity .18s ease}
+body.is-switching{opacity:.25}
+@media (prefers-reduced-motion:reduce){body.is-switching{opacity:1}}
+
+/* --- shared -------------------------------------------------------------- */
+.wrap{width:min(64rem,100%);margin-inline:auto;padding-inline:var(--pad)}
+
+a{color:inherit}
+a:focus-visible,button:focus-visible{
+  outline:2px solid var(--pomegranate);
+  outline-offset:3px;
+  border-radius:2px;
+}
+
+.eyebrow{
+  font-size:.72rem;
+  font-weight:500;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--olive);
+  margin-bottom:1rem;
+}
+
+h2{
+  font-family:var(--display);
+  font-weight:400;
+  font-size:clamp(1.9rem,1.4rem + 2.2vw,3rem);
+  line-height:1.1;
+  letter-spacing:-.01em;
+  margin-bottom:1.75rem;
+}
+
+h3{
+  font-family:var(--display);
+  font-weight:500;
+  font-size:1.25rem;
+  line-height:1.3;
+  margin-bottom:.4rem;
+}
+
+/* --- language toggle ----------------------------------------------------- */
+.langbar{
+  position:fixed;top:1rem;right:1rem;z-index:50;
+  display:flex;gap:1px;
+  background:rgba(30,42,38,.18);
+  border:1px solid rgba(239,240,234,.35);
+  border-radius:100px;
+  overflow:hidden;
+  backdrop-filter:blur(10px);
+}
+.langbar button{
+  font-family:var(--body);
+  font-size:.72rem;font-weight:500;letter-spacing:.12em;
+  padding:.5rem .85rem;
+  border:0;background:transparent;color:var(--limewash);
+  cursor:pointer;
+  transition:background .2s ease,color .2s ease;
+}
+.langbar button[aria-pressed="true"]{background:var(--limewash);color:var(--ink)}
+body.scrolled .langbar{
+  background:rgba(239,240,234,.82);
+  border-color:var(--stone);
+}
+body.scrolled .langbar button{color:var(--ink-soft)}
+body.scrolled .langbar button[aria-pressed="true"]{background:var(--ink);color:var(--limewash)}
+
+/* --- hero ---------------------------------------------------------------- */
+.hero{
+  position:relative;
+  background:var(--ink);
+  color:var(--limewash);
+  min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding-block:6rem 4rem;
+  overflow:hidden;
+}
+
+/* the signature: an oversized ampersand bleeding off the corner */
+.hero::after{
+  content:"&";
+  position:absolute;
+  right:-.14em;bottom:-.34em;
+  font-family:var(--display);
+  font-style:italic;
+  font-size:clamp(20rem,46vw,42rem);
+  line-height:1;
+  color:var(--pomegranate);
+  opacity:.5;
+  pointer-events:none;
+  user-select:none;
+}
+
+.hero .wrap{position:relative;z-index:1}
+
+.hero-names{
+  font-family:var(--display);
+  font-weight:400;
+  font-style:italic;
+  font-size:clamp(3rem,1.6rem + 9vw,7.5rem);
+  line-height:.98;
+  letter-spacing:-.02em;
+}
+.hero-names span{display:block}
+
+.hero-meta{
+  margin-top:2.25rem;
+  padding-top:1.75rem;
+  border-top:1px solid rgba(239,240,234,.25);
+  display:flex;flex-wrap:wrap;gap:.6rem 2.5rem;
+  font-size:.9rem;letter-spacing:.12em;text-transform:uppercase;font-weight:400;
+}
+
+.hero-scroll{
+  position:absolute;left:var(--pad);bottom:2rem;z-index:1;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(239,240,234,.55);
+  text-decoration:none;
+}
+
+/* load animation */
+.rise{opacity:0;transform:translateY(14px);animation:rise .9s cubic-bezier(.2,.7,.3,1) forwards}
+.rise:nth-child(1){animation-delay:.1s}
+.rise:nth-child(2){animation-delay:.25s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .rise{animation:none;opacity:1;transform:none}
+}
+
+/* --- sections ------------------------------------------------------------ */
+section{padding-block:var(--gap)}
+section + section{border-top:1px solid var(--stone)}
+
+.lede{
+  font-family:var(--display);
+  font-size:clamp(1.25rem,1.05rem + 1vw,1.6rem);
+  line-height:1.5;
+  max-width:34ch;
+  color:var(--ink-soft);
+}
+
+/* --- schedule (order carries meaning, so it's a rail) -------------------- */
+.rail{list-style:none;border-left:1px solid var(--stone);margin-left:.35rem}
+.rail li{position:relative;padding:0 0 2.25rem 2rem}
+.rail li:last-child{padding-bottom:0}
+.rail li::before{
+  content:"";position:absolute;left:-4.5px;top:.6rem;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--pomegranate);
+}
+.rail time{
+  display:block;
+  font-size:.75rem;font-weight:500;letter-spacing:.18em;
+  color:var(--olive);
+  margin-bottom:.3rem;
+}
+.rail p{color:var(--ink-soft);font-size:.95rem}
+
+/* --- cards --------------------------------------------------------------- */
+.cols{display:grid;gap:2.5rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.card p{color:var(--ink-soft);font-size:.95rem;margin-bottom:.75rem}
+
+.maplink{
+  display:inline-block;
+  font-size:.78rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--pomegranate);
+  text-decoration:none;
+  border-bottom:1px solid currentColor;
+  padding-bottom:2px;
+}
+.maplink:hover{color:var(--ink)}
+
+/* --- rsvp ---------------------------------------------------------------- */
+.rsvp{background:var(--ink);color:var(--limewash);text-align:center}
+.rsvp h2{color:var(--limewash)}
+.rsvp p{color:rgba(239,240,234,.7);max-width:38ch;margin-inline:auto;margin-bottom:2.25rem}
+.btn{
+  display:inline-block;
+  background:var(--pomegranate);color:var(--limewash);
+  text-decoration:none;
+  font-weight:500;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;
+  padding:1.05rem 2.75rem;
+  border-radius:100px;
+  transition:transform .2s ease,background .2s ease;
+}
+.btn:hover{background:#A43848;transform:translateY(-2px)}
+@media (prefers-reduced-motion:reduce){.btn:hover{transform:none}}
+.deadline{
+  display:block;margin-top:1.5rem;
+  font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(239,240,234,.45);
+}
+
+/* --- footer -------------------------------------------------------------- */
+footer{
+  padding:3rem 0;text-align:center;
+  font-size:.78rem;letter-spacing:.1em;color:var(--olive);
+}
+footer a{color:var(--pomegranate)}
+</style>
+</head>
+
+<body>
+
+<div class="langbar" role="group" aria-label="Language / Γλώσσα">
+  <button type="button" data-set="el" aria-pressed="false">ΕΛ</button>
+  <button type="button" data-set="en" aria-pressed="true">EN</button>
+</div>
+
+<!-- ============================ HERO ============================ -->
+<header class="hero">
+  <div class="wrap">
+    <!-- EDIT: names -->
+    <h1 class="hero-names rise">
+      <span lang="el">Χρήστος</span><span lang="en">Christos</span>
+      <span lang="el">&amp; Όνομα</span><span lang="en">&amp; Name</span>
+    </h1>
+    <div class="hero-meta rise">
+      <!-- EDIT: date + place -->
+      <span><span lang="el">13 Ιουνίου 2027</span><span lang="en">13 June 2027</span></span>
+      <span><span lang="el">Τρίπολη, Αρκαδία</span><span lang="en">Tripoli, Arcadia</span></span>
+    </div>
+  </div>
+  <a class="hero-scroll" href="#welcome">
+    <span lang="el">Λεπτομέρειες ↓</span><span lang="en">Details ↓</span>
+  </a>
+</header>
+
+<main>
+
+<!-- ============================ WELCOME ============================ -->
+<section id="welcome">
+  <div class="wrap">
+    <p class="eyebrow"><span lang="el">Καλώς ήρθατε</span><span lang="en">Welcome</span></p>
+    <p class="lede">
+      <span lang="el">Παντρευόμαστε στην Αρκαδία και θα χαρούμε πολύ να είστε εκεί. Εδώ θα βρείτε το πρόγραμμα, πώς να έρθετε και πού να μείνετε.</span>
+      <span lang="en">We're getting married in Arcadia, and we'd love you there. Below you'll find the schedule, how to get there, and where to stay.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ============================ SCHEDULE ============================ -->
+<section id="schedule">
+  <div class="wrap">
+    <p class="eyebrow"><span lang="el">Σάββατο 13 Ιουνίου</span><span lang="en">Saturday 13 June</span></p>
+    <h2><span lang="el">Πρόγραμμα</span><span lang="en">The day</span></h2>
+
+    <!-- EDIT: times and descriptions -->
+    <ol class="rail">
+      <li>
+        <time>17:00</time>
+        <h3><span lang="el">Άφιξη</span><span lang="en">Arrival</span></h3>
+        <p><span lang="el">Καλωσόρισμα με κάτι δροσιστικό στον κήπο.</span><span lang="en">Drinks in the garden before we begin.</span></p>
+      </li>
+      <li>
+        <time>17:30</time>
+        <h3><span lang="el">Τελετή</span><span lang="en">Ceremony</span></h3>
+        <p><span lang="el">Περίπου 45 λεπτά, σε εξωτερικό χώρο.</span><span lang="en">About 45 minutes, outdoors.</span></p>
+      </li>
+      <li>
+        <time>19:00</time>
+        <h3><span lang="el">Δείπνο</span><span lang="en">Dinner</span></h3>
+        <p><span lang="el">Καθιστό δείπνο. Θα υπάρχει τραπεζολόγιο.</span><span lang="en">Seated dinner. There'll be a table plan.</span></p>
+      </li>
+      <li>
+        <time>22:00</time>
+        <h3><span lang="el">Χορός</span><span lang="en">Dancing</span></h3>
+        <p><span lang="el">Μέχρι αργά.</span><span lang="en">Until late.</span></p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================ WHERE ============================ -->
+<section id="where">
+  <div class="wrap">
+    <p class="eyebrow"><span lang="el">Τοποθεσία</span><span lang="en">Location</span></p>
+    <h2><span lang="el">Πού</span><span lang="en">Where</span></h2>
+
+    <div class="cols">
+      <div class="card">
+        <h3><span lang="el">Τελετή &amp; δεξίωση</span><span lang="en">Ceremony &amp; reception</span></h3>
+        <!-- EDIT: venue name + address -->
+        <p><span lang="el">Όνομα χώρου<br>Διεύθυνση, Τρίπολη 221 00</span><span lang="en">Venue name<br>Address, Tripoli 221 00</span></p>
+        <!-- EDIT: replace the query with the real venue -->
+        <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Tripoli+Arcadia+Greece" target="_blank" rel="noopener">
+          <span lang="el">Άνοιγμα στους χάρτες</span><span lang="en">Open in maps</span>
+        </a>
+      </div>
+
+      <div class="card">
+        <h3><span lang="el">Στάθμευση &amp; μεταφορά</span><span lang="en">Parking &amp; transport</span></h3>
+        <p><span lang="el">Υπάρχει δωρεάν πάρκινγκ στον χώρο. Θα οργανώσουμε λεωφορείο από το κέντρο της Τρίπολης στις 16:15 και επιστροφή μετά τα μεσάνυχτα.</span><span lang="en">Free parking on site. We'll run a coach from central Tripoli at 16:15, returning after midnight.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TRAVEL ============================ -->
+<section id="travel">
+  <div class="wrap">
+    <p class="eyebrow"><span lang="el">Ταξίδι</span><span lang="en">Travel</span></p>
+    <h2><span lang="el">Πώς θα έρθετε</span><span lang="en">Getting there</span></h2>
+
+    <div class="cols">
+      <div class="card">
+        <h3><span lang="el">Με αεροπλάνο</span><span lang="en">By air</span></h3>
+        <p><span lang="el">Πετάξτε στην Αθήνα (ATH). Η Τρίπολη είναι περίπου 2 ώρες οδικώς από το αεροδρόμιο.</span><span lang="en">Fly to Athens (ATH). Tripoli is roughly a 2-hour drive from the airport.</span></p>
+      </div>
+      <div class="card">
+        <h3><span lang="el">Με αυτοκίνητο ή λεωφορείο</span><span lang="en">By car or coach</span></h3>
+        <p><span lang="el">Από την Αθήνα, ακολουθήστε την Ολυμπία Οδό. Υπάρχουν επίσης τακτικά δρομολόγια ΚΤΕΛ από τον σταθμό Κηφισού.</span><span lang="en">From Athens, take the Olympia Odos motorway. There are also regular KTEL coaches from Kifissos terminal.</span></p>
+      </div>
+      <div class="card">
+        <h3><span lang="el">Διαμονή</span><span lang="en">Where to stay</span></h3>
+        <!-- EDIT: hotels you've blocked rooms at -->
+        <p><span lang="el">Έχουμε κρατήσει δωμάτια στο Ξενοδοχείο Α και στο Ξενοδοχείο Β. Αναφέρετε το όνομά μας κατά την κράτηση, μέχρι τις 1 Απριλίου.</span><span lang="en">We've held rooms at Hotel A and Hotel B. Mention our names when booking, before 1 April.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ GOOD TO KNOW ============================ -->
+<section id="info">
+  <div class="wrap">
+    <p class="eyebrow"><span lang="el">Χρήσιμα</span><span lang="en">Good to know</span></p>
+    <h2><span lang="el">Μερικές λεπτομέρειες</span><span lang="en">A few details</span></h2>
+
+    <div class="cols">
+      <div class="card">
+        <h3><span lang="el">Ενδυματολογικός κώδικας</span><span lang="en">Dress code</span></h3>
+        <p><span lang="el">Επίσημο καλοκαιρινό. Ο κήπος έχει χώμα και γρασίδι — αποφύγετε τα λεπτά τακούνια.</span><span lang="en">Summer formal. The garden is grass and gravel, so leave the stilettos at home.</span></p>
+      </div>
+      <div class="card">
+        <h3><span lang="el">Δώρα</span><span lang="en">Gifts</span></h3>
+        <p><span lang="el">Η παρουσία σας είναι αρκετή. Αν επιμένετε, θα υπάρχει κουτί ευχών στη δεξίωση.</span><span lang="en">Your presence is plenty. If you insist, there'll be a wishing box at the reception.</span></p>
+      </div>
+      <div class="card">
+        <h3><span lang="el">Παιδιά</span><span lang="en">Children</span></h3>
+        <p><span lang="el">Τα παιδιά είναι ευπρόσδεκτα. Πείτε μας ηλικίες στο RSVP για να ετοιμαστούμε.</span><span lang="en">Children are welcome. Tell us their ages in the RSVP so we can plan.</span></p>
+      </div>
+      <div class="card">
+        <h3><span lang="el">Επικοινωνία</span><span lang="en">Questions</span></h3>
+        <!-- EDIT: contact address -->
+        <p><span lang="el">Γράψτε μας στο <a href="mailto:hello@example.com">hello@example.com</a>.</span><span lang="en">Email us at <a href="mailto:hello@example.com">hello@example.com</a>.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ RSVP ============================ -->
+<section class="rsvp" id="rsvp">
+  <div class="wrap">
+    <h2><span lang="el">Θα έρθετε;</span><span lang="en">Will you join us?</span></h2>
+    <p>
+      <span lang="el">Πείτε μας μέχρι την 1η Μαρτίου 2027, ώστε να κλείσουμε τους αριθμούς.</span>
+      <span lang="en">Let us know by 1 March 2027 so we can confirm numbers.</span>
+    </p>
+    <!-- EDIT: put your form URL here -->
+    <a class="btn" href="#" target="_blank" rel="noopener">
+      <span lang="el">Απαντήστε</span><span lang="en">RSVP</span>
+    </a>
+    <span class="deadline">
+      <span lang="el">Προθεσμία 01.03.2027</span><span lang="en">By 01.03.2027</span>
+    </span>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span lang="el">Χρήστος &amp; Όνομα · 13.06.2027</span><span lang="en">Christos &amp; Name · 13.06.2027</span>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var buttons = document.querySelectorAll('.langbar button');
+
+  function setLang(lang, animate) {
+    if (animate) {
+      document.body.classList.add('is-switching');
+      setTimeout(function () { document.body.classList.remove('is-switching'); }, 180);
+    }
+    root.setAttribute('data-lang', lang);
+    root.setAttribute('lang', lang);
+    buttons.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.set === lang));
+    });
+  }
+
+  // Priority: ?lang=el in the URL, then the browser's language, then English.
+  // The URL param lets you send Greek relatives a link that opens in Greek.
+  var fromUrl = new URLSearchParams(location.search).get('lang');
+  var initial = (fromUrl === 'el' || fromUrl === 'en')
+    ? fromUrl
+    : ((navigator.language || 'en').toLowerCase().indexOf('el') === 0 ? 'el' : 'en');
+  setLang(initial, false);
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.dataset.set, true); });
+  });
+
+  // Toggle bar contrast once you scroll past the dark hero.
+  var onScroll = function () {
+    document.body.classList.toggle('scrolled', window.scrollY > window.innerHeight - 100);
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+
+</body>
+</html>
