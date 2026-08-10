@@ -22,6 +22,10 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://klea-chris.ch/">
 
+<!-- Keep the page out of Google. This is the part that actually
+     keeps strangers away; the code below is only a doormat. -->
+<meta name="robots" content="noindex, nofollow">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Commissioner:wght@300;400;500&display=swap" rel="stylesheet">
@@ -308,10 +312,78 @@ footer{
 .stamp{
   font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
 }
+
+/* --- code gate ----------------------------------------------------------- */
+html.locked body > *:not(#gate){display:none}
+html:not(.locked) #gate{display:none}
+
+#gate{
+  position:fixed;inset:0;z-index:200;
+  background:var(--paper);
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:var(--pad);
+}
+#gate .monogram{margin-bottom:1.5rem}
+#gate p{
+  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:2rem;line-height:2;
+}
+.gate-form{display:flex;flex-direction:column;align-items:center;gap:1rem}
+#code{
+  font-family:var(--display);
+  font-size:1.5rem;
+  text-align:center;
+  width:min(18rem,80vw);
+  padding:.6rem 1rem;
+  color:var(--gold-deep);
+  background:transparent;
+  border:0;border-bottom:1px solid var(--rule);
+  border-radius:0;
+}
+#code:focus{outline:0;border-bottom-color:var(--iris)}
+#gate .err{
+  color:var(--iris);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  min-height:1.2em;margin:0;
+}
+.shake{animation:shake .4s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  20%,60%{transform:translateX(-6px)}
+  40%,80%{transform:translateX(6px)}
+}
+@media (prefers-reduced-motion:reduce){.shake{animation:none}}
 </style>
+
+<script>
+  // Runs before the body paints, so locked content never flashes.
+  (function () {
+    var unlocked = false;
+    try { unlocked = localStorage.getItem('kc-unlocked') === '1'; } catch (e) {}
+    if (!unlocked) document.documentElement.className += ' locked';
+  })();
+</script>
 </head>
 
 <body>
+
+<!-- ============================ CODE GATE ============================ -->
+<div id="gate">
+  <div>
+    <div class="monogram">Χ&#8202;Κ</div>
+    <p>
+      <span lang="el">Εισάγετε τον κωδικό<br>από την πρόσκλησή σας</span>
+      <span lang="en">Enter the code<br>from your invitation</span>
+    </p>
+    <div class="gate-form">
+      <input id="code" type="text" autocomplete="off" autocapitalize="off"
+             autocorrect="off" spellcheck="false" aria-label="Code">
+      <button class="btn" id="unlock" type="button">
+        <span lang="el">Είσοδος</span><span lang="en">Enter</span>
+      </button>
+      <p class="err" id="err" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</div>
 
 <div class="langbar" role="group" aria-label="Γλώσσα / Language">
   <button type="button" data-set="el" aria-pressed="true">ΕΛ</button>
@@ -578,6 +650,66 @@ footer{
   buttons.forEach(function (b) {
     b.addEventListener('click', function () { setLang(b.dataset.set, true); });
   });
+})();
+
+// ---------------------------------------------------------------------------
+// Code gate. The word itself isn't in this file — only its SHA-256 hash — so
+// reading the source doesn't hand it over. See the note about what this is
+// and isn't: the page content below is still plain HTML.
+// ---------------------------------------------------------------------------
+(function () {
+  var HASH = 'bacd9c6b9251241bebeea9025342b452cc66c9c1520f1613f525c856a9abe58d';
+
+  var gate = document.getElementById('gate');
+  var input = document.getElementById('code');
+  var button = document.getElementById('unlock');
+  var err = document.getElementById('err');
+
+  function sha256(text) {
+    var bytes = new TextEncoder().encode(text);
+    return crypto.subtle.digest('SHA-256', bytes).then(function (buf) {
+      return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+        return b.toString(16).padStart(2, '0');
+      }).join('');
+    });
+  }
+
+  function unlock() {
+    document.documentElement.classList.remove('locked');
+    try { localStorage.setItem('kc-unlocked', '1'); } catch (e) {}
+  }
+
+  function fail() {
+    err.textContent = document.documentElement.getAttribute('data-lang') === 'el'
+      ? 'Λάθος κωδικός' : 'Wrong code';
+    gate.classList.remove('shake');
+    void gate.offsetWidth;
+    gate.classList.add('shake');
+    input.select();
+  }
+
+  function attempt(value, quiet) {
+    if (!value) return;
+    if (!window.crypto || !crypto.subtle) {
+      err.textContent = 'Needs https';
+      return;
+    }
+    sha256(value.trim().toLowerCase()).then(function (h) {
+      if (h === HASH) { unlock(); } else if (!quiet) { fail(); }
+    });
+  }
+
+  button.addEventListener('click', function () { attempt(input.value); });
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') attempt(input.value);
+  });
+  input.addEventListener('input', function () { err.textContent = ''; });
+
+  // ?code=hagrid lets you send a link that opens straight through.
+  var fromUrl = new URLSearchParams(location.search).get('code');
+  if (fromUrl) attempt(fromUrl, true);
+
+  if (document.documentElement.classList.contains('locked')) input.focus();
 })();
 </script>
 
