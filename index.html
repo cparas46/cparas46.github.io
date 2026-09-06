@@ -28,7 +28,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Commissioner:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Commissioner:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -150,14 +150,20 @@ h3{
 .hero .wrap{position:relative;z-index:1}
 
 .monogram{
-  font-family:var(--display);
-  font-style:italic;
-  font-weight:300;
-  font-size:clamp(3.5rem,2.5rem + 4vw,5.5rem);
-  line-height:1;
+  font-family:"Great Vibes",var(--display),cursive;
+  font-style:normal;
+  font-weight:400;
+  font-size:clamp(5rem,3.5rem + 6vw,8.5rem);
+  line-height:1.1;
   color:var(--iris);
-  letter-spacing:-.06em;
-  margin-bottom:1.75rem;
+  letter-spacing:-.02em;
+  margin-bottom:1.5rem;
+}
+/* The second letter drops and overlaps, the way the printed monogram does. */
+.monogram .k{
+  display:inline-block;
+  margin-left:-.22em;
+  transform:translateY(.16em);
 }
 
 .invite-line{
@@ -369,10 +375,10 @@ html:not(.locked) #gate{display:none}
 <!-- ============================ CODE GATE ============================ -->
 <div id="gate">
   <div>
-    <div class="monogram">Χ&#8202;Κ</div>
+    <div class="monogram" role="img" aria-label="Χ &amp; Κ"><span aria-hidden="true">X</span><span class="k" aria-hidden="true">K</span></div>
     <p>
-      <span lang="el">Εισάγετε τον κωδικό</span>
-      <span lang="en">Enter the code</span>
+      <span lang="el">Εισάγετε τον κωδικό<br>από την πρόσκλησή σας</span>
+      <span lang="en">Enter the code<br>from your invitation</span>
     </p>
     <div class="gate-form">
       <input id="code" type="text" autocomplete="off" autocapitalize="off"
@@ -427,7 +433,7 @@ html:not(.locked) #gate{display:none}
   <svg class="sprig sprig--right" viewBox="0 0 200 350" aria-hidden="true"><use href="#sprig-art"/></svg>
 
   <div class="wrap">
-    <div class="monogram rise">Χ&#8202;Κ</div>
+    <div class="monogram rise" role="img" aria-label="Χ &amp; Κ"><span aria-hidden="true">X</span><span class="k" aria-hidden="true">K</span></div>
 
     <p class="invite-line rise">
       <span lang="el">Με μεγάλη χαρά σας προσκαλούμε στον γάμο μας</span>
@@ -472,16 +478,20 @@ html:not(.locked) #gate{display:none}
       <li>
         <time>17:00</time>
         <h3><span lang="el">Το μυστήριο</span><span lang="en">Ceremony</span></h3>
-        <p><span lang="el">Ο ήλιος δύει λίγο μετά τις 17:15, οπότε η τελετή ξεκινά με το φως να χαμηλώνει.</span><span lang="en">The sun sets just after 17:15, so the ceremony begins as the light goes.</span></p>
+        <p><span lang="el">Το μυστήριο θα τελεστεί στον εξωτερικό χώρο του παρεκκλησίου (καιρού επιτρέποντος).</span><span lang="en">The ceremony will be held outdoors, beside the chapel (weather permitting).</span></p>
       </li>
       <li>
         <time>18:30</time>
-        <h3><span lang="el">Δεξίωση</span><span lang="en">Reception</span></h3>
-        <p><span lang="el">Στον χώρο του κτήματος, αμέσως μετά το μυστήριο.</span><span lang="en">At the estate, straight after the ceremony.</span></p>
+        <h3><span lang="el">Ποτό καλωσορίσματος</span><span lang="en">Welcome drink</span></h3>
       </li>
       <li>
-        <time>20:00</time>
-        <h3><span lang="el">Χορός</span><span lang="en">Dancing</span></h3>
+        <time>19:30</time>
+        <h3><span lang="el">Δεξίωση</span><span lang="en">Reception</span></h3>
+        <p><span lang="el">Στον χώρο του κτήματος.</span><span lang="en">At the estate.</span></p>
+      </li>
+      <li>
+        <time>21:00</time>
+        <h3><span lang="el">Πάρτυ</span><span lang="en">Party</span></h3>
         <p><span lang="el">Μέχρι αργά.</span><span lang="en">Until late.</span></p>
       </li>
     </ol>
@@ -533,8 +543,7 @@ html:not(.locked) #gate{display:none}
       </div>
       <div class="card">
         <h3><span lang="el">Διαμονή</span><span lang="en">Where to stay</span></h3>
-        <!-- CHECK: add hotels once you've decided -->
-        <p><span lang="el">Για όσους μένουν το βράδυ, θα προτείνουμε καταλύματα στην περιοχή Κερατέας, Λαυρίου και Σουνίου.</span><span lang="en">For anyone staying the night, we'll suggest places around Keratea, Lavrio and Sounio.</span></p>
+        <p><span lang="el">Προτείνουμε διαμονή στο κέντρο της Αθήνας. Για όποιον ενδιαφέρεται για μεταφορά με ιδιωτικό λεωφορείο, παρακαλούμε ενημερώστε μας μέχρι τις 14 Οκτωβρίου.</span><span lang="en">We suggest staying in central Athens. If you'd like a place on the private coach, please let us know by 14 October.</span></p>
       </div>
     </div>
   </div>
@@ -548,18 +557,12 @@ html:not(.locked) #gate{display:none}
 
     <div class="cols">
       <div class="card">
-        <h3><span lang="el">Τι να φορέσετε</span><span lang="en">What to wear</span></h3>
-        <!-- CHECK: your call on dress code -->
-        <p><span lang="el">Επίσημο. Νοέμβριος βράδυ στην Αττική — πάρτε ένα πανωφόρι για την τελετή, που γίνεται στο παρεκκλήσι.</span><span lang="en">Formal. It's a November evening in Attica, so bring a coat for the ceremony.</span></p>
+        <h3><span lang="el">Dress code</span><span lang="en">Dress code</span></h3>
+        <p><span lang="el">Επίσημο. Θα χρειαστείτε πανωφόρι, ειδικά για την τελετή που θα λάβει μέρος σε εξωτερικό χώρο.</span><span lang="en">Formal. You'll want a coat, especially for the ceremony, which takes place outdoors.</span></p>
       </div>
       <div class="card">
         <h3><span lang="el">Παιδιά</span><span lang="en">Children</span></h3>
-        <p><span lang="el">Ευπρόσδεκτα. Πείτε μας ηλικίες όταν επιβεβαιώσετε.</span><span lang="en">Very welcome. Let us know their ages when you confirm.</span></p>
-      </div>
-      <div class="card">
-        <h3><span lang="el">Δώρα</span><span lang="en">Gifts</span></h3>
-        <!-- CHECK: adjust or delete -->
-        <p><span lang="el">Η παρουσία σας είναι το μόνο που χρειαζόμαστε.</span><span lang="en">Your presence is all we need.</span></p>
+        <p><span lang="el">Ευπρόσδεκτα. Πείτε μας τις ηλικίες και τα ονόματά τους όταν επιβεβαιώσετε.</span><span lang="en">Very welcome. Tell us their names and ages when you confirm.</span></p>
       </div>
       <div class="card">
         <h3><span lang="el">Απορίες</span><span lang="en">Questions</span></h3>
