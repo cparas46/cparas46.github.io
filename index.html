@@ -319,6 +319,65 @@ footer{
   font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
 }
 
+/* --- rsvp form ----------------------------------------------------------- */
+.rsvp-form{
+  max-width:34rem;margin:0 auto;text-align:left;
+  display:grid;gap:1.5rem;
+}
+.field{display:grid;gap:.45rem}
+.field label,.field .legend{
+  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
+}
+.field input[type=text],
+.field input[type=tel],
+.field input[type=email],
+.field input[type=number],
+.field textarea{
+  font-family:var(--body);
+  font-size:1rem;font-weight:300;color:var(--ink);
+  background:var(--paper);
+  border:1px solid var(--rule);border-radius:2px;
+  padding:.7rem .9rem;width:100%;
+}
+.field textarea{min-height:6rem;resize:vertical}
+.field input:focus,.field textarea:focus{outline:0;border-color:var(--iris)}
+
+.choices{display:flex;flex-wrap:wrap;gap:.6rem}
+.choice{position:relative}
+.choice input{position:absolute;opacity:0;width:0;height:0}
+.choice span{
+  display:block;cursor:pointer;
+  font-size:.8rem;letter-spacing:.06em;
+  padding:.6rem 1.4rem;
+  border:1px solid var(--rule);border-radius:100px;
+  background:var(--paper);
+  transition:background .18s ease,border-color .18s ease,color .18s ease;
+}
+.choice input:checked + span{background:var(--iris);border-color:var(--iris);color:#fff}
+.choice input:focus-visible + span{outline:2px solid var(--iris);outline-offset:3px}
+
+.hp{position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden}
+
+.form-note{
+  font-size:.78rem;color:var(--gold);letter-spacing:.04em;
+  text-transform:none;line-height:1.6;
+}
+.form-status{
+  min-height:1.4em;font-size:.8rem;letter-spacing:.08em;color:var(--iris);
+}
+.rsvp-form .btn{justify-self:center;border:0;cursor:pointer;font-family:var(--body)}
+.rsvp-form .btn[disabled]{opacity:.5;cursor:default}
+
+.thanks{
+  font-family:var(--display);
+  font-size:1.5rem;color:var(--gold-deep);
+  max-width:30ch;margin:2rem auto 0;line-height:1.5;
+}
+
+/* Hide the coach question once its deadline passes, and the whole form
+   after the RSVP deadline. Dates are set in the script below. */
+.is-hidden{display:none !important}
+
 /* --- code gate ----------------------------------------------------------- */
 html.locked body > *:not(#gate){display:none}
 html:not(.locked) #gate{display:none}
@@ -590,11 +649,95 @@ html:not(.locked) #gate{display:none}
       </a>
     </div>
 
-    <!-- CHECK: if you make a Google Form, put the link here.
-         Otherwise delete this button and keep the phone numbers. -->
-    <a class="btn" href="#" target="_blank" rel="noopener">
-      <span lang="el">Απαντήστε online</span><span lang="en">RSVP online</span>
-    </a>
+    <!-- =====================================================
+         RSVP form. Posts to Web3Forms, which emails you the
+         answers. Free tier: 250 submissions/month.
+
+         SETUP: get an access key at https://web3forms.com
+         (enter your email, they send you the key by return),
+         then paste it into the access_key value below.
+         The key is meant to be public — it only says
+         "deliver to this address", it grants nothing else.
+         ===================================================== -->
+    <form class="rsvp-form" id="rsvpForm">
+      <input type="hidden" name="access_key" value="acefac8b-eaf2-4219-99ec-2f6fde85a48a">
+      <input type="hidden" name="subject" value="RSVP — klea-chris.ch">
+      <input type="hidden" name="from_name" value="klea-chris.ch">
+      <!-- honeypot: bots fill this, humans never see it -->
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+
+      <div class="field">
+        <label for="f-name"><span lang="el">Ονοματεπώνυμο</span><span lang="en">Full name</span></label>
+        <input id="f-name" name="Name" type="text" required autocomplete="name">
+      </div>
+
+      <div class="field">
+        <span class="legend"><span lang="el">Θα έρθετε;</span><span lang="en">Are you coming?</span></span>
+        <div class="choices">
+          <label class="choice">
+            <input type="radio" name="Attending" value="Yes" required>
+            <span><span lang="el">Ναι, θα είμαστε εκεί</span><span lang="en">Yes, we'll be there</span></span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="Attending" value="No">
+            <span><span lang="el">Δυστυχώς όχι</span><span lang="en">Sadly not</span></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-guests"><span lang="el">Πόσα άτομα συνολικά</span><span lang="en">How many of you in total</span></label>
+        <input id="f-guests" name="Guests" type="number" min="1" max="12" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label for="f-children"><span lang="el">Παιδιά — ονόματα και ηλικίες</span><span lang="en">Children — names and ages</span></label>
+        <input id="f-children" name="Children" type="text">
+      </div>
+
+      <div class="field" id="coachField">
+        <span class="legend"><span lang="el">Ιδιωτικό λεωφορείο από την Αθήνα</span><span lang="en">Private coach from Athens</span></span>
+        <div class="choices">
+          <label class="choice">
+            <input type="radio" name="Coach" value="Yes">
+            <span><span lang="el">Ναι, μας ενδιαφέρει</span><span lang="en">Yes, we're interested</span></span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="Coach" value="No">
+            <span><span lang="el">Όχι, ευχαριστούμε</span><span lang="en">No thanks</span></span>
+          </label>
+        </div>
+        <p class="form-note">
+          <span lang="el">Παρακαλούμε ενημερώστε μας μέχρι τις 14 Οκτωβρίου.</span>
+          <span lang="en">Please let us know by 14 October.</span>
+        </p>
+      </div>
+
+      <div class="field">
+        <label for="f-diet"><span lang="el">Διατροφικές ιδιαιτερότητες</span><span lang="en">Dietary requirements</span></label>
+        <input id="f-diet" name="Dietary" type="text">
+      </div>
+
+      <div class="field">
+        <label for="f-contact"><span lang="el">Τηλέφωνο ή email</span><span lang="en">Phone or email</span></label>
+        <input id="f-contact" name="Contact" type="text" autocomplete="tel">
+      </div>
+
+      <div class="field">
+        <label for="f-msg"><span lang="el">Ένα μήνυμα για εμάς</span><span lang="en">A message for us</span></label>
+        <textarea id="f-msg" name="Message"></textarea>
+      </div>
+
+      <button class="btn" type="submit" id="rsvpSubmit">
+        <span lang="el">Αποστολή</span><span lang="en">Send</span>
+      </button>
+      <p class="form-status" id="rsvpStatus" role="status" aria-live="polite"></p>
+    </form>
+
+    <p class="thanks is-hidden" id="rsvpThanks">
+      <span lang="el">Ευχαριστούμε! Το λάβαμε.</span>
+      <span lang="en">Thank you — we've got it.</span>
+    </p>
 
     <span class="deadline">
       <span lang="el">Έως 6 Οκτωβρίου 2026</span><span lang="en">By 6 October 2026</span>
@@ -713,6 +856,63 @@ html:not(.locked) #gate{display:none}
   if (fromUrl) attempt(fromUrl, true);
 
   if (document.documentElement.classList.contains('locked')) input.focus();
+})();
+
+// ---------------------------------------------------------------------------
+// RSVP form → Web3Forms. Submits in the background so the guest stays on the
+// page. If the network call fails, the phone numbers above are the fallback.
+// ---------------------------------------------------------------------------
+(function () {
+  var form = document.getElementById('rsvpForm');
+  if (!form) return;
+
+  var status = document.getElementById('rsvpStatus');
+  var submit = document.getElementById('rsvpSubmit');
+  var thanks = document.getElementById('rsvpThanks');
+
+  // Hide the coach question once its deadline has passed.
+  var COACH_DEADLINE = new Date('2026-10-15T00:00:00+03:00');
+  if (new Date() >= COACH_DEADLINE) {
+    var cf = document.getElementById('coachField');
+    if (cf) cf.classList.add('is-hidden');
+  }
+
+  function say(el, en) {
+    status.textContent =
+      document.documentElement.getAttribute('data-lang') === 'el' ? el : en;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+
+    submit.disabled = true;
+    say('Αποστολή…', 'Sending…');
+
+    var payload = Object.fromEntries(new FormData(form).entries());
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data.success) {
+          form.classList.add('is-hidden');
+          thanks.classList.remove('is-hidden');
+        } else {
+          submit.disabled = false;
+          say('Κάτι πήγε στραβά — πάρτε μας τηλέφωνο.',
+              'Something went wrong — please call us instead.');
+        }
+      })
+      .catch(function () {
+        submit.disabled = false;
+        say('Κάτι πήγε στραβά — πάρτε μας τηλέφωνο.',
+            'Something went wrong — please call us instead.');
+      });
+  });
 })();
 </script>
 
