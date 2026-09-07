@@ -218,6 +218,31 @@ h3{
 @keyframes rise{to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.rise{animation:none;opacity:1;transform:none}}
 
+/* --- story postcards ----------------------------------------------------- */
+.story{padding-block:var(--gap)}
+.postcards{
+  display:grid;gap:2.5rem;
+  grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+}
+.postcard{text-align:center}
+.postcard img{
+  display:block;width:100%;height:auto;
+  border-radius:2px;
+  box-shadow:0 1px 2px rgba(70,61,49,.10),0 12px 28px rgba(70,61,49,.13);
+}
+.postcard figcaption{
+  font-family:var(--display);
+  font-size:1.35rem;
+  color:var(--gold-deep);
+  margin-top:1.25rem;
+}
+/* Slight scatter, like cards laid on a table. Flat on small screens. */
+@media (min-width:56rem){
+  .postcard:nth-child(1){transform:rotate(-1.6deg)}
+  .postcard:nth-child(2){transform:rotate(.9deg) translateY(1.25rem)}
+  .postcard:nth-child(3){transform:rotate(-.6deg)}
+}
+
 /* --- sections ------------------------------------------------------------ */
 section{padding-block:var(--gap)}
 section + section{border-top:1px solid var(--rule)}
@@ -520,6 +545,29 @@ html:not(.locked) #gate{display:none}
 
 <main>
 
+<!-- ============================ OUR STORY ============================ -->
+<section class="story" id="story">
+  <div class="wrap">
+    <div class="postcards">
+      <figure class="postcard">
+        <img src="postcard-athens.jpg" width="900" height="900" loading="lazy"
+             alt="Η Ακρόπολη και η Αθήνα">
+        <figcaption><span lang="el">Η γνωριμία</span><span lang="en">How we met</span></figcaption>
+      </figure>
+      <figure class="postcard">
+        <img src="postcard-prangins.jpg" width="900" height="900" loading="lazy"
+             alt="Château de Prangins, Nyon">
+        <figcaption><span lang="el">Η πρόταση γάμου</span><span lang="en">The proposal</span></figcaption>
+      </figure>
+      <figure class="postcard">
+        <img src="postcard-karras.jpg" width="900" height="900" loading="lazy"
+             alt="Domaine Karras, Αττική">
+        <figcaption><span lang="el">Ο γάμος</span><span lang="en">The wedding</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
 <!-- ============================ SCHEDULE ============================ -->
 <section id="schedule">
   <div class="wrap">
@@ -660,7 +708,7 @@ html:not(.locked) #gate{display:none}
          "deliver to this address", it grants nothing else.
          ===================================================== -->
     <form class="rsvp-form" id="rsvpForm">
-      <input type="hidden" name="access_key" value="acefac8b-eaf2-4219-99ec-2f6fde85a48a">
+      <input type="hidden" name="access_key" value="PASTE-YOUR-ACCESS-KEY-HERE">
       <input type="hidden" name="subject" value="RSVP — klea-chris.ch">
       <input type="hidden" name="from_name" value="klea-chris.ch">
       <!-- honeypot: bots fill this, humans never see it -->
